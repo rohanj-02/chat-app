@@ -1,3 +1,8 @@
+export const ADD_MESSAGE = "ADD_MESSAGE";
+export const SEND_MESSAGE = "SEND_MESSAGE";
+export const FETCH_MESSAGES = "FETCH_MESSAGES";
+export const RECEIVED_MESSAGES = "RECEIVED_MESSAGES";
+export const LEAVE_ROOM = "LEAVE_ROOM";
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";

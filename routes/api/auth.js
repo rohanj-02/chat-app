@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 const User = require("../../models/User");
+const Room = require("../../models/Room");
 const auth = require("../../middleware/auth");
 
 // @route   POST api/auth/register
@@ -108,7 +109,20 @@ router.get("/user", auth, (req, res) => {
 	User.findById(req.user.id)
 		.select("-password")
 		.then((user) => {
-			res.json(user);
+			const { rooms } = user;
+			const promises = rooms.map((room_id) => {
+				return Room.findById(room_id)
+					.select("-created_at -messages")
+					.sort({ updated_at: -1 });
+			});
+			Promise.all(promises)
+				.then((room_list) => {
+					user.rooms = room_list;
+					res.json(user);
+				})
+				.catch((err) =>
+					res.status(400).json({ msg: "Cannot access user right now" })
+				);
 		});
 });
 

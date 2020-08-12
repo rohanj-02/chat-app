@@ -8,6 +8,7 @@ export class Dashboard extends Component {
 	static propTypes = {
 		isAuthenticated: PropTypes.bool,
 		user: PropTypes.object,
+		room: PropTypes.object,
 		isLoading: PropTypes.bool,
 	};
 
