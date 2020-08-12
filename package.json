@@ -1,0 +1,33 @@
+{
+	"name": "chat-app",
+	"version": "1.0.0",
+	"description": "A realtime chat application made with MERN Stack",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js",
+		"server": "nodemon server.js",
+		"client": "npm start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"client-install": "npm install --prefix client"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rohanj-02/chat-app.git"
+	},
+	"author": "Rohan Jain",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/rohanj-02/chat-app/issues"
+	},
+	"homepage": "https://github.com/rohanj-02/chat-app#readme",
+	"dependencies": {
+		"concurrently": "^5.3.0",
+		"config": "^3.3.1",
+		"express": "^4.17.1",
+		"mongoose": "^5.9.28",
+		"socket.io": "^2.3.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
+}
