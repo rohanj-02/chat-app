@@ -16,6 +16,11 @@ mongoose
 	.then(() => console.log("MongoDB Connected"))
 	.catch((err) => console.log(err));
 
+//Routes
+app.use("/api/room", require("./routes/api/room"));
+app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/message", require("./routes/api/meessage"));
+
 //if production environment
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "client/build")));
