@@ -21,21 +21,25 @@ router.get("/:id", auth, (req, res) => {
 		.then((room) => {
 			const { users } = room;
 			if (users.includes(user.id)) {
-				var messages = [];
-				room.messages.forEach((id) => {
-					Message.findById(id).then((message) => {
-						messages.push(message);
-					});
+				const messages = room.messages;
+				room.messages = [];
+				const promises = messages.map((id) => {
+					return Message.findById(id);
 				});
-				room.messages = messages;
-				res.json(room);
+
+				Promise.all(promises).then((msg) => {
+					room.messages = msg;
+					res.json(room);
+				});
 			} else {
 				res.status(403).json({
 					msg: "You do not have the credentials to join this room",
 				});
 			}
 		})
-		.catch((err) => res.status(404).json({ success: false }));
+		.catch((err) => {
+			return res.status(404).json({ success: false });
+		});
 });
 
 // @route   POST api/room/
@@ -51,7 +55,7 @@ router.post("/", auth, (req, res) => {
 	const newRoom = new Room({
 		name: req.body.name,
 		users: users,
-		admin: req.body.user.id,
+		admin: req.user.id,
 	});
 	newRoom.save().then((room) => {
 		room.users.forEach((user_id) => {
