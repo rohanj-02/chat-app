@@ -94,12 +94,28 @@ router.post("/login", (req, res) => {
 							name: user.name,
 							email: user.email,
 							username: user.username,
+							rooms: user.rooms,
+							status: user.status,
 						},
 					});
 				}
 			);
 		});
 	});
+});
+
+// @route   GET api/auth/username
+// @desc    Get public info of user
+// @access  Public
+router.get("/user/:id", (req, res) => {
+	User.findById(req.params.id)
+		.select("-email -password -rooms")
+		.then((user) => {
+			res.json(user);
+		})
+		.catch((err) => {
+			res.status(400).json({ msg: "Cannot access user data" });
+		});
 });
 
 // @route   GET api/auth/user

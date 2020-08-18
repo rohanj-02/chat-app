@@ -1,9 +1,10 @@
 import {
 	ADD_MESSAGE,
 	SEND_MESSAGE,
-	FETCH_MESSAGES,
+	FETCHING_MESSAGES,
 	RECEIVED_MESSAGES,
 	LEAVE_ROOM,
+	FETCH_USER_PUBLIC,
 } from "../actions/types";
 
 const initialState = {
@@ -13,11 +14,12 @@ const initialState = {
 	name: "",
 	admin: [],
 	users: [],
+	user_data: [],
 };
 
 export default function (state = initialState, action) {
 	switch (action.type) {
-		case FETCH_MESSAGES:
+		case FETCHING_MESSAGES:
 			return {
 				...state,
 				isFetching: true,
@@ -47,6 +49,13 @@ export default function (state = initialState, action) {
 				id: "",
 				users: [],
 				admin: [],
+				user_data: [],
+			};
+		case FETCH_USER_PUBLIC:
+			const temp = state.user_data.concat(action.payload);
+			return {
+				...state,
+				user_data: temp,
 			};
 		default:
 			return state;

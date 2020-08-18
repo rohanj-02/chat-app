@@ -55,7 +55,7 @@ export class Register extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				{this.state.redirect ? <Redirect to="/" /> : null}
+				{this.state.redirect ? <Redirect to="/dashboard" /> : null}
 				{this.state.error_msg ? (
 					<Alert color="danger">{this.state.error_msg}</Alert>
 				) : null}

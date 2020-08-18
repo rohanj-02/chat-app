@@ -8,6 +8,7 @@ import {
 	REGISTER_FAIL,
 	LOGOUT_SUCCESS,
 	AUTH_ERROR,
+	GET_ERRORS,
 } from "./types";
 import { returnErrors } from "./errorActions";
 
@@ -31,7 +32,12 @@ export const loadUser = () => (dispatch, getState) => {
 		.get("/api/auth/user", tokenConfig(getState))
 		.then((res) => dispatch({ type: USER_LOADED, payload: res.data }))
 		.catch((err) => {
+			console.log(err);
 			dispatch(returnErrors(err.response.data, err.response.status));
+			// dispatch({
+			// 	type: GET_ERRORS,
+			// 	payload: { msg: "Some error", status: 401 },
+			// });
 			dispatch({ type: AUTH_ERROR });
 		});
 };

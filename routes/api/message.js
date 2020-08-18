@@ -38,4 +38,6 @@ router.post("/", auth, (req, res) => {
 		.catch((err) => res.status(404).json({ success: false }));
 });
 
+//gets messages from api/room/messages/:id
+
 module.exports = router;
