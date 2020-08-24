@@ -7,6 +7,7 @@ import {
 	REGISTER_FAIL,
 	LOGOUT_SUCCESS,
 	AUTH_ERROR,
+	ROOM_CREATED,
 } from "../actions/types";
 
 const initialState = {
@@ -47,6 +48,13 @@ export default function (state = initialState, action) {
 				user: null,
 				token: null,
 				isLoading: false,
+			};
+		case ROOM_CREATED:
+			const userNew = state.user;
+			userNew.rooms.push(action.payload.id);
+			return {
+				...state,
+				user: userNew,
 			};
 		default:
 			return state;

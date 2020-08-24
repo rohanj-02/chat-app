@@ -8,7 +8,7 @@ import {
 	REGISTER_FAIL,
 	LOGOUT_SUCCESS,
 	AUTH_ERROR,
-	GET_ERRORS,
+	ROOM_CREATED,
 } from "./types";
 import { returnErrors } from "./errorActions";
 
@@ -79,6 +79,18 @@ export const login = ({ email, password }) => (dispatch) => {
 				returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
 			);
 			dispatch({ type: LOGIN_FAIL });
+		});
+};
+
+export const createRoom = ({ name, users }) => (dispatch, getState) => {
+	const req_body = JSON.stringify({ name, users });
+	axios
+		.post("api/room", req_body, tokenConfig(getState))
+		.then((res) => {
+			dispatch({ type: ROOM_CREATED, payload: res.data });
+		})
+		.catch((err) => {
+			dispatch(returnErrors(err.response.data, err.response.status));
 		});
 };
 

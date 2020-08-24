@@ -1,6 +1,5 @@
 import {
 	ADD_MESSAGE,
-	SEND_MESSAGE,
 	FETCHING_MESSAGES,
 	RECEIVED_MESSAGES,
 	LEAVE_ROOM,
@@ -13,11 +12,6 @@ import axios from "axios";
 //needs a messagae object as params
 export const addMessage = ({ body, room, sender }) => (dispatch, getState) => {
 	const req_body = JSON.stringify({ body, room, sender });
-	const config = {
-		headers: {
-			"Content-Type": "application/json",
-		},
-	};
 	axios
 		.post("api/message", req_body, tokenConfig(getState))
 		.then((res) => dispatch({ type: ADD_MESSAGE, payload: res.data }))

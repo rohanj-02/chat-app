@@ -51,21 +51,53 @@ router.post("/", auth, (req, res) => {
 		return res.status(400).json({ msg: "Enter all fields" });
 	}
 	// users has all other users id except the creator
-	users.push(req.user.id);
-	const newRoom = new Room({
-		name: req.body.name,
-		users: users,
-		admin: req.user.id,
+	// EDIT THIS TO FIND ID BY USERNAME AND THEN ADD ROOM
+	// DOES NOT WORK
+	//ERROR: Unhandled Proemise Rehection Warning
+	// At line 83:34
+	// Cannot set headers after they are sent to client
+
+	const promises = users.map((username) => {
+		return User.findOne({ username }).select("_id");
 	});
-	newRoom.save().then((room) => {
-		room.users.forEach((user_id) => {
-			User.findById(user_id).then((user) => {
-				user.rooms.push(room.id);
-				user.save().then((user) => {
-					res.json(room);
-				});
-			});
+
+	let userID = [];
+	Promise.all(promises).then((userObj) => {
+		userID = userObj;
+		userID.push(req.user.id);
+		const newRoom = new Room({
+			name: name,
+			users: userID,
+			admin: [req.user.id],
 		});
+		newRoom
+			.save()
+			.then((room) => {
+				room.users
+					.forEach((user_id) => {
+						User.findById(user_id)
+							.then((user) => {
+								user.rooms.push(room.id);
+								user
+									.save()
+									.then((user) => {
+										res.json(room);
+									})
+									.catch((err) => {
+										return res.status(404).json({ success: false });
+									});
+							})
+							.catch((err) => {
+								return res.status(404).json({ success: false });
+							});
+					})
+					.catch((err) => {
+						return res.status(404).json({ success: false });
+					});
+			})
+			.catch((err) => {
+				return res.status(404).json({ success: false });
+			});
 	});
 });
 

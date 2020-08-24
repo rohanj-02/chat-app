@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Redirect, Link } from "react-router-dom";
-import { loadUser } from "../actions/authActions";
+import { Link } from "react-router-dom";
+import { loadUser, createRoom } from "../actions/authActions";
 import { fetchMessages, getUserName } from "../actions/roomActions";
-import { Button } from "reactstrap";
+import { Button, Form, Label, FormGroup, Input } from "reactstrap";
 import AppNavbar from "./AppNavbar";
 
 export class Dashboard extends Component {
 	state = {
 		selected: null,
 		fetchedMessages: false,
+		group_name: "",
+		username: "",
 	};
 
 	static propTypes = {
@@ -32,6 +34,21 @@ export class Dashboard extends Component {
 		this.props.room.users.forEach((user) => {
 			this.props.getUserName(user);
 		});
+	};
+
+	handleChange = (e) => {
+		this.setState({
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		const req_body = {
+			name: this.state.group_name,
+			users: [this.state.username],
+		};
+		this.props.createRoom(req_body);
 	};
 
 	render() {
@@ -60,14 +77,8 @@ export class Dashboard extends Component {
 					>
 						{room.name}
 					</Button>
-					{this.state.fetchedMessages
+					{this.state.fetchedMessages && this.state.selected === room._id
 						? this.props.room.messages.map((msg) => {
-								let display = (
-									<div style={{ margin: "15px" }}>
-										<p>{msg.body}</p>
-									</div>
-								);
-
 								if (this.props.room.user_data.length === 0) {
 									this.props.room.users.forEach((user) => {
 										this.props.getUserName(user);
@@ -91,17 +102,51 @@ export class Dashboard extends Component {
 											return user._id === msg.sender;
 										}
 									);
-
-									return (
-										<div style={{ margin: "15px" }}>
-											<p> {msg.body}</p>
-											<p>{user[0].username}</p>
-										</div>
-									);
+									if (user) {
+										return (
+											<div style={{ margin: "15px" }}>
+												<p> {msg.body}</p>
+												<p>{user[0].username}</p>
+											</div>
+										);
+									} else {
+										return <div></div>;
+									}
 								}
 						  })
 						: //   (INPUT BOX FOR SENDING MESSAGE)
 						  null}
+					<h2>Create Room</h2>
+					<Form onSubmit={this.handleSubmit}>
+						<FormGroup>
+							<Label htmlFor="name">Name</Label>
+							<Input
+								type="text"
+								id="group_name"
+								name="group_name"
+								placeholder="Chat Name"
+								className="mb-3"
+								onChange={this.handleChange}
+							/>
+							<Label htmlFor="Username">Username</Label>
+							<Input
+								type="text"
+								id="username"
+								name="username"
+								placeholder="Username"
+								className="mb-3"
+								onChange={this.handleChange}
+							/>
+							<Button
+								type="submit"
+								color="dark"
+								style={{ marginTop: "2rem" }}
+								block
+							>
+								Create Room
+							</Button>
+						</FormGroup>
+					</Form>
 				</li>
 			);
 		});
@@ -126,4 +171,5 @@ export default connect(mapStateToProps, {
 	loadUser,
 	fetchMessages,
 	getUserName,
+	createRoom,
 })(Dashboard);
