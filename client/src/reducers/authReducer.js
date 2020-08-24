@@ -51,7 +51,7 @@ export default function (state = initialState, action) {
 			};
 		case ROOM_CREATED:
 			const userNew = state.user;
-			userNew.rooms.push(action.payload.id);
+			userNew.rooms.push(action.payload);
 			return {
 				...state,
 				user: userNew,

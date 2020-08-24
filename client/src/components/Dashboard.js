@@ -6,6 +6,7 @@ import { loadUser, createRoom } from "../actions/authActions";
 import { fetchMessages, getUserName } from "../actions/roomActions";
 import { Button, Form, Label, FormGroup, Input } from "reactstrap";
 import AppNavbar from "./AppNavbar";
+// import auth from "../../../middleware/auth";
 
 export class Dashboard extends Component {
 	state = {
@@ -116,45 +117,50 @@ export class Dashboard extends Component {
 						  })
 						: //   (INPUT BOX FOR SENDING MESSAGE)
 						  null}
-					<h2>Create Room</h2>
-					<Form onSubmit={this.handleSubmit}>
-						<FormGroup>
-							<Label htmlFor="name">Name</Label>
-							<Input
-								type="text"
-								id="group_name"
-								name="group_name"
-								placeholder="Chat Name"
-								className="mb-3"
-								onChange={this.handleChange}
-							/>
-							<Label htmlFor="Username">Username</Label>
-							<Input
-								type="text"
-								id="username"
-								name="username"
-								placeholder="Username"
-								className="mb-3"
-								onChange={this.handleChange}
-							/>
-							<Button
-								type="submit"
-								color="dark"
-								style={{ marginTop: "2rem" }}
-								block
-							>
-								Create Room
-							</Button>
-						</FormGroup>
-					</Form>
 				</li>
 			);
 		});
+		const finalAuthDisplay = (
+			<React.Fragment>
+				{authDisplay}
+				<h2>Create Room</h2>
+				<Form onSubmit={this.handleSubmit}>
+					<FormGroup>
+						<Label htmlFor="name">Name</Label>
+						<Input
+							type="text"
+							id="group_name"
+							name="group_name"
+							placeholder="Chat Name"
+							className="mb-3"
+							onChange={this.handleChange}
+						/>
+						<Label htmlFor="Username">Username</Label>
+						<Input
+							type="text"
+							id="username"
+							name="username"
+							placeholder="Username"
+							className="mb-3"
+							onChange={this.handleChange}
+						/>
+						<Button
+							type="submit"
+							color="dark"
+							style={{ marginTop: "2rem" }}
+							block
+						>
+							Create Room
+						</Button>
+					</FormGroup>
+				</Form>
+			</React.Fragment>
+		);
 		return (
 			<div>
 				<AppNavbar />
 				<h1>Authorized access</h1>
-				{authDisplay}
+				{finalAuthDisplay}
 			</div>
 		);
 	}

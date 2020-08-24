@@ -50,12 +50,6 @@ router.post("/", auth, (req, res) => {
 	if (!name || users.length == 0) {
 		return res.status(400).json({ msg: "Enter all fields" });
 	}
-	// users has all other users id except the creator
-	// EDIT THIS TO FIND ID BY USERNAME AND THEN ADD ROOM
-	// DOES NOT WORK
-	//ERROR: Unhandled Proemise Rehection Warning
-	// At line 83:34
-	// Cannot set headers after they are sent to client
 
 	const promises = users.map((username) => {
 		return User.findOne({ username }).select("_id");
@@ -63,8 +57,12 @@ router.post("/", auth, (req, res) => {
 
 	let userID = [];
 	Promise.all(promises).then((userObj) => {
-		userID = userObj;
+		userObj.forEach((u) => {
+			userID.push(u.id);
+		});
+		// userID = userObj;
 		userID.push(req.user.id);
+		console.log(userID);
 		const newRoom = new Room({
 			name: name,
 			users: userID,
@@ -73,27 +71,23 @@ router.post("/", auth, (req, res) => {
 		newRoom
 			.save()
 			.then((room) => {
-				room.users
-					.forEach((user_id) => {
-						User.findById(user_id)
-							.then((user) => {
-								user.rooms.push(room.id);
-								user
-									.save()
-									.then((user) => {
-										res.json(room);
-									})
-									.catch((err) => {
-										return res.status(404).json({ success: false });
-									});
-							})
-							.catch((err) => {
-								return res.status(404).json({ success: false });
-							});
-					})
-					.catch((err) => {
-						return res.status(404).json({ success: false });
-					});
+				room.users.forEach((user_id) => {
+					console.log(user_id);
+					User.findById(user_id)
+						.then((user) => {
+							user.rooms.push(room.id);
+							user
+								.save()
+								.then((user) => {})
+								.catch((err) => {
+									return res.status(404).json({ success: false });
+								});
+						})
+						.catch((err) => {
+							return res.status(404).json({ success: false });
+						});
+				});
+				res.json(room.id);
 			})
 			.catch((err) => {
 				return res.status(404).json({ success: false });
