@@ -76,11 +76,12 @@ router.post("/", auth, (req, res) => {
 					User.findById(user_id)
 						.then((user) => {
 							user.rooms.push(room.id);
-							user
-								.save()
+							user.save()
 								.then((user) => {})
 								.catch((err) => {
-									return res.status(404).json({ success: false });
+									return res
+										.status(404)
+										.json({ success: false });
 								});
 						})
 						.catch((err) => {

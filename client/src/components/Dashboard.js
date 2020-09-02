@@ -78,7 +78,8 @@ export class Dashboard extends Component {
 					>
 						{room.name}
 					</Button>
-					{this.state.fetchedMessages && this.state.selected === room._id
+					{this.state.fetchedMessages &&
+					this.state.selected === room._id
 						? this.props.room.messages.map((msg) => {
 								if (this.props.room.user_data.length === 0) {
 									this.props.room.users.forEach((user) => {

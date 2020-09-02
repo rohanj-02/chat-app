@@ -137,7 +137,9 @@ router.get("/user", auth, (req, res) => {
 					res.json(user);
 				})
 				.catch((err) =>
-					res.status(400).json({ msg: "Cannot access user right now" })
+					res
+						.status(400)
+						.json({ msg: "Cannot access user right now" })
 				);
 		});
 });

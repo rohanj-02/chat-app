@@ -60,7 +60,9 @@ class AppNavbar extends Component {
 										<NavLink href="/login">Login</NavLink>
 									</NavItem>
 									<NavItem>
-										<NavLink href="/register">Register</NavLink>
+										<NavLink href="/register">
+											Register
+										</NavLink>
 									</NavItem>
 								</React.Fragment>
 							)}
