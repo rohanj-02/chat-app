@@ -79,8 +79,7 @@ router.post("/login", (req, res) => {
 		}
 		//Validate password
 		bcrypt.compare(password, user.password).then((isMatch) => {
-			if (!isMatch)
-				return res.status(400).json({ msg: "Invalid Credentials" });
+			if (!isMatch) return res.status(400).json({ msg: "Invalid Credentials" });
 			jwt.sign(
 				{ id: user.id },
 				process.env.jwtSecret || config.get("jwtSecret"),
@@ -137,9 +136,7 @@ router.get("/user", auth, (req, res) => {
 					res.json(user);
 				})
 				.catch((err) =>
-					res
-						.status(400)
-						.json({ msg: "Cannot access user right now" })
+					res.status(400).json({ msg: "Cannot access user right now" })
 				);
 		});
 });

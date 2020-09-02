@@ -97,11 +97,7 @@ export class Register extends Component {
 							className="mb-3"
 							onChange={this.handleChange}
 						/>
-						<Button
-							color="dark"
-							style={{ marginTop: "2rem" }}
-							block
-						>
+						<Button color="dark" style={{ marginTop: "2rem" }} block>
 							Register
 						</Button>
 					</FormGroup>

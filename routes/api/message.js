@@ -31,9 +31,7 @@ router.post("/", auth, (req, res) => {
 					roomObj
 						.save()
 						.then(() => res.json(message))
-						.catch((err) =>
-							res.status(404).json({ success: false })
-						);
+						.catch((err) => res.status(404).json({ success: false }));
 				})
 				.catch((err) => res.status(404).json({ success: false }));
 		})

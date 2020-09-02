@@ -42,15 +42,11 @@ class AppNavbar extends Component {
 							{this.props.isAuthenticated ? (
 								<React.Fragment>
 									<NavItem>
-										<NavbarText>
-											Welcome {this.props.user.username}
-										</NavbarText>
+										<NavbarText>Welcome {this.props.user.username}</NavbarText>
 									</NavItem>
 									<NavItem>
 										<NavLink href="/">
-											<Button onClick={this.props.logout}>
-												Logout
-											</Button>
+											<Button onClick={this.props.logout}>Logout</Button>
 										</NavLink>
 									</NavItem>
 								</React.Fragment>
@@ -60,9 +56,7 @@ class AppNavbar extends Component {
 										<NavLink href="/login">Login</NavLink>
 									</NavItem>
 									<NavItem>
-										<NavLink href="/register">
-											Register
-										</NavLink>
+										<NavLink href="/register">Register</NavLink>
 									</NavItem>
 								</React.Fragment>
 							)}

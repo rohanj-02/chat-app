@@ -5,7 +5,8 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
-		"format": "prettier --write .",
+		"format-config": "prettier --find-config-path ./server.js",
+		"format": "prettier --config ./.prettierrc --write .",
 		"server": "nodemon server.js",
 		"client": "npm start --prefix client",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
